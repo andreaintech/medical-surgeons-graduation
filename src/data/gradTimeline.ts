@@ -1,10 +1,6 @@
-export type TimelineEvent = {
-    id: string;
-    year: string;
-    title: string;
-    description: string;
-    imageUrl: string;
-};
+// Re-export TimelineEvent from types for backward compatibility
+export type { TimelineEvent } from './types';
+import type { TimelineEvent } from './types';
 
 export const gradTimeline: TimelineEvent[] = [
     {

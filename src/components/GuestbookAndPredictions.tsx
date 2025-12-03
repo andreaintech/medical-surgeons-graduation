@@ -58,7 +58,7 @@ export function GuestbookAndPredictions() {
     return (
         <div className="guestbook">
             <section className="guestbook__section">
-                <h2>Mensajes para {title} {name}</h2>
+                <h2>Mensajes para {title} 💬</h2>
 
                 <ul className="guestbook__list">
                     {messages.map((msg) => (
@@ -92,7 +92,7 @@ export function GuestbookAndPredictions() {
             </section>
 
             <section className="guestbook__section">
-                <h2>Predicciones para {title} {name} 🔮</h2>
+                <h2>Predicciones para {title} 🔮</h2>
 
                 <ul className="guestbook__list">
                     {predictions.map((pred) => (

@@ -19,9 +19,9 @@ export interface StudentTheme {
 
 export const studentThemes: Record<Student, StudentTheme> = {
     fabiana: {
-        name: 'Fabiana',
+        name: 'Dra. Fabiana',
         title: 'la Doctora',
-        emoji: '💜',
+        emoji: '👩🏽‍⚕',
         primary: '#9333ea', // purple-500
         primaryLight: '#c084fc', // purple-300
         primaryDark: '#7e22ce', // purple-600
@@ -34,9 +34,9 @@ export const studentThemes: Record<Student, StudentTheme> = {
         gradientSoft: 'linear-gradient(135deg, #e9d5ff 0%, #fef9c3 100%)',
     },
     hecmary: {
-        name: 'Hecmary',
+        name: 'Dra. Hecmary',
         title: 'la Doctora',
-        emoji: '💙',
+        emoji: '👩🏽‍⚕',
         primary: '#3b82f6', // blue-500
         primaryLight: '#93c5fd', // blue-300
         primaryDark: '#2563eb', // blue-600
@@ -49,9 +49,9 @@ export const studentThemes: Record<Student, StudentTheme> = {
         gradientSoft: 'linear-gradient(135deg, #dbeafe 0%, #fef9c3 100%)',
     },
     glenda: {
-        name: 'Glenda',
+        name: 'Dra. Glenda',
         title: 'la Doctora',
-        emoji: '💗',
+        emoji: '👩🏻‍⚕',
         primary: '#ec4899', // pink-500
         primaryLight: '#f9a8d4', // pink-300
         primaryDark: '#db2777', // pink-600
@@ -64,9 +64,9 @@ export const studentThemes: Record<Student, StudentTheme> = {
         gradientSoft: 'linear-gradient(135deg, #fce7f3 0%, #fef9c3 100%)',
     },
     irainer: {
-        name: 'Irainer',
+        name: 'Dra. Irainer',
         title: 'la Doctora',
-        emoji: '❤️',
+        emoji: '👩🏻‍⚕',
         primary: '#ef4444', // red-500
         primaryLight: '#fca5a5', // red-300
         primaryDark: '#dc2626', // red-600
@@ -79,9 +79,9 @@ export const studentThemes: Record<Student, StudentTheme> = {
         gradientSoft: 'linear-gradient(135deg, #fee2e2 0%, #fef9c3 100%)',
     },
     emily: {
-        name: 'Emily',
+        name: 'Dra. Emily',
         title: 'la Doctora',
-        emoji: '🧡',
+        emoji: '👩🏽‍⚕',
         primary: '#f97316', // orange-500
         primaryLight: '#fdba74', // orange-300
         primaryDark: '#ea580c', // orange-600
@@ -94,9 +94,9 @@ export const studentThemes: Record<Student, StudentTheme> = {
         gradientSoft: 'linear-gradient(135deg, #ffedd5 0%, #fef9c3 100%)',
     },
     josmar: {
-        name: 'Josmar',
+        name: 'Dr. Josmar',
         title: 'el Doctor',
-        emoji: '💚',
+        emoji: '👨🏻‍⚕',
         primary: '#22c55e', // green-500
         primaryLight: '#86efac', // green-300
         primaryDark: '#16a34a', // green-600
