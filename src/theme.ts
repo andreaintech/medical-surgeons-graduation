@@ -3,7 +3,7 @@ export type Student = 'fabiana' | 'hecmary' | 'glenda' | 'irainer' | 'emily' | '
 
 export interface StudentTheme {
     name: string;
-    messages: string;
+    title: string;
     emoji: string;
     primary: string;
     primaryLight: string;
@@ -20,7 +20,7 @@ export interface StudentTheme {
 export const studentThemes: Record<Student, StudentTheme> = {
     fabiana: {
         name: 'Fabiana',
-        messages: 'Mensajes para la doctora Fabiana',
+        title: 'la Doctora',
         emoji: '💜',
         primary: '#9333ea', // purple-500
         primaryLight: '#c084fc', // purple-300
@@ -35,7 +35,7 @@ export const studentThemes: Record<Student, StudentTheme> = {
     },
     hecmary: {
         name: 'Hecmary',
-        messages: 'Mensajes para la doctora Hecmary',
+        title: 'la Doctora',
         emoji: '💙',
         primary: '#3b82f6', // blue-500
         primaryLight: '#93c5fd', // blue-300
@@ -50,7 +50,7 @@ export const studentThemes: Record<Student, StudentTheme> = {
     },
     glenda: {
         name: 'Glenda',
-        messages: 'Mensajes para la doctora Glenda',
+        title: 'la Doctora',
         emoji: '💗',
         primary: '#ec4899', // pink-500
         primaryLight: '#f9a8d4', // pink-300
@@ -65,7 +65,7 @@ export const studentThemes: Record<Student, StudentTheme> = {
     },
     irainer: {
         name: 'Irainer',
-        messages: 'Mensajes para la doctora Irainer',
+        title: 'la Doctora',
         emoji: '❤️',
         primary: '#ef4444', // red-500
         primaryLight: '#fca5a5', // red-300
@@ -80,7 +80,7 @@ export const studentThemes: Record<Student, StudentTheme> = {
     },
     emily: {
         name: 'Emily',
-        messages: 'Mensajes para la doctora Emily',
+        title: 'la Doctora',
         emoji: '🧡',
         primary: '#f97316', // orange-500
         primaryLight: '#fdba74', // orange-300
@@ -95,7 +95,7 @@ export const studentThemes: Record<Student, StudentTheme> = {
     },
     josmar: {
         name: 'Josmar',
-        messages: 'Mensajes para el doctor Josmar',
+        title: 'el Doctor',
         emoji: '💚',
         primary: '#22c55e', // green-500
         primaryLight: '#86efac', // green-300

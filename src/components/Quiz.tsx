@@ -1,14 +1,19 @@
 // src/components/Quiz.tsx
 import { useState } from 'react';
-import { gradQuestions } from '../data/gradQuestions';
+import { useStudent } from '../hooks/useStudent';
+import { getStudentData } from '../data/students';
 
 export function Quiz() {
+    const { activeStudent } = useStudent();
+    const studentData = getStudentData(activeStudent);
+    const questions = studentData.questions;
+
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
     const [score, setScore] = useState(0);
     const [isFinished, setIsFinished] = useState(false);
 
-    const currentQuestion = gradQuestions[currentIndex];
+    const currentQuestion = questions[currentIndex];
 
     function handleSelectOption(optionId: string) {
         setSelectedOptionId(optionId);
@@ -23,7 +28,7 @@ export function Quiz() {
 
         setSelectedOptionId(null);
 
-        if (currentIndex === gradQuestions.length - 1) {
+        if (currentIndex === questions.length - 1) {
             setIsFinished(true);
         } else {
             setCurrentIndex((prev) => prev + 1);
@@ -38,7 +43,7 @@ export function Quiz() {
     }
 
     if (isFinished) {
-        const totalQuestions = gradQuestions.length;
+        const totalQuestions = questions.length;
         const ratio = score / totalQuestions;
 
         let message = 'Tenemos muchas anécdotas para seguir recordando 🎉';
@@ -65,7 +70,7 @@ export function Quiz() {
     return (
         <div className="quiz">
             <p className="quiz__progress">
-                Pregunta {currentIndex + 1} de {gradQuestions.length}
+                Pregunta {currentIndex + 1} de {questions.length}
             </p>
 
             <h2 className="quiz__question">{currentQuestion.question}</h2>
@@ -94,7 +99,7 @@ export function Quiz() {
                 onClick={handleNext}
                 disabled={!selectedOptionId}
             >
-                {currentIndex === gradQuestions.length - 1
+                {currentIndex === questions.length - 1
                     ? 'Ver resultado'
                     : 'Siguiente'}
             </button>

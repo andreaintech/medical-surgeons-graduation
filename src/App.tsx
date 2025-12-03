@@ -1,37 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './App.css';
 import { GuestbookAndPredictions } from './components/GuestbookAndPredictions';
 import { Quiz } from './components/Quiz';
 import { Timeline } from './components/Timeline';
 import { studentThemes, type Student } from './theme';
+import { useStudent } from './hooks/useStudent';
 import groupPhoto from './assets/home/group.jpg';
 
 type Module = 'guestbook' | 'quiz' | 'timeline';
 
 function App() {
-  const [activeStudent, setActiveStudent] = useState<Student>('fabiana');
+  const { activeStudent, setActiveStudent, graduationTitle, emoji } = useStudent();
   const [activeModule, setActiveModule] = useState<Module>('guestbook');
-  const theme = studentThemes[activeStudent];
-
-  // Update CSS variables when student changes
-  useEffect(() => {
-    const root = document.documentElement;
-    root.style.setProperty('--theme-primary', theme.primary);
-    root.style.setProperty('--theme-primary-light', theme.primaryLight);
-    root.style.setProperty('--theme-primary-dark', theme.primaryDark);
-    root.style.setProperty('--theme-secondary', theme.secondary);
-    root.style.setProperty('--theme-secondary-light', theme.secondaryLight);
-    root.style.setProperty('--theme-secondary-dark', theme.secondaryDark);
-    root.style.setProperty('--theme-gradient-primary', theme.gradientPrimary);
-    root.style.setProperty('--theme-gradient-secondary', theme.gradientSecondary);
-    root.style.setProperty('--theme-gradient-mixed', theme.gradientMixed);
-    root.style.setProperty('--theme-gradient-soft', theme.gradientSoft);
-  }, [theme]);
-
-  const isDoctor = activeStudent !== 'josmar';
-  const title = isDoctor
-    ? `¡Feliz Graduación, Doctora ${theme.name}!`
-    : `¡Feliz Graduación, Doctor ${theme.name}!`;
 
   return (
     <div className="app">
@@ -39,10 +19,10 @@ function App() {
         <div className="app__header-content">
           <h1 className="app__title">
             <span className="app__title-icon">🎓</span>{' '}
-            {title}{' '}
-            <span className="app__title-icon">{theme.emoji}</span>
+            {graduationTitle}{' '}
+            <span className="app__title-icon">{emoji}</span>
           </h1>
-          <p className="app__subtitle">Un regalo especial para celebrar tu logro</p>
+          <p className="app__subtitle">Un regalo especial para celebrar tu logro 🏅</p>
           <div className="app__group-photo-wrapper">
             <img
               src={groupPhoto}
@@ -101,7 +81,7 @@ function App() {
           <GuestbookAndPredictions />
         </div>
         <div className={`app__panel ${activeModule === 'quiz' ? 'app__panel--active' : ''}`}>
-          <Quiz />
+          <Quiz key={activeStudent} />
         </div>
         <div className={`app__panel ${activeModule === 'timeline' ? 'app__panel--active' : ''}`}>
           <Timeline />

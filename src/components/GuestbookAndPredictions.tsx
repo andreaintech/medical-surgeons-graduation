@@ -1,16 +1,22 @@
 // src/components/GuestbookAndPredictions.tsx
-import { useState } from 'react';
-import {
-    initialMessages,
-    initialPredictions,
-    type Message,
-    type Prediction,
-} from '../data/gradMessages';
+import { useState, useMemo, useEffect } from 'react';
+import { type Message, type Prediction } from '../data/gradMessages';
+import { useStudent } from '../hooks/useStudent';
+import { getStudentData } from '../data/students';
 
 export function GuestbookAndPredictions() {
-    const [messages, setMessages] = useState<Message[]>(initialMessages);
-    const [predictions, setPredictions] = useState<Prediction[]>(initialPredictions);
+    const { activeStudent, title, name } = useStudent();
+    const studentData = useMemo(() => getStudentData(activeStudent), [activeStudent]);
 
+    const [messages, setMessages] = useState<Message[]>(studentData.messages);
+    const [predictions, setPredictions] = useState<Prediction[]>(studentData.predictions);
+
+    // Update messages and predictions when student changes
+    useEffect(() => {
+        setMessages(studentData.messages);
+        setPredictions(studentData.predictions);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activeStudent]);
     const [newMessageName, setNewMessageName] = useState('');
     const [newMessageText, setNewMessageText] = useState('');
     const [newPredictionName, setNewPredictionName] = useState('');
@@ -52,7 +58,7 @@ export function GuestbookAndPredictions() {
     return (
         <div className="guestbook">
             <section className="guestbook__section">
-                <h2>Mensajes para la doctora 💜</h2>
+                <h2>Mensajes para {title} {name}</h2>
 
                 <ul className="guestbook__list">
                     {messages.map((msg) => (
@@ -75,7 +81,7 @@ export function GuestbookAndPredictions() {
                         onChange={(e) => setNewMessageName(e.target.value)}
                     />
                     <textarea
-                        placeholder="Escribe tu mensaje para Fabiana"
+                        placeholder={`Escribe tu mensaje para ${name}`}
                         value={newMessageText}
                         onChange={(e) => setNewMessageText(e.target.value)}
                     />
@@ -86,7 +92,7 @@ export function GuestbookAndPredictions() {
             </section>
 
             <section className="guestbook__section">
-                <h2>Predicciones para la doctora 🔮</h2>
+                <h2>Predicciones para {title} {name} 🔮</h2>
 
                 <ul className="guestbook__list">
                     {predictions.map((pred) => (
@@ -108,7 +114,7 @@ export function GuestbookAndPredictions() {
                         onChange={(e) => setNewPredictionName(e.target.value)}
                     />
                     <textarea
-                        placeholder="Escribe tu predicción para la doctora Fabiana"
+                        placeholder={`Escribe tu predicción para ${title} ${name}`}
                         value={newPredictionText}
                         onChange={(e) => setNewPredictionText(e.target.value)}
                     />

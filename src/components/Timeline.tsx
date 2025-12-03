@@ -1,16 +1,21 @@
-import { gradTimeline } from '../data/gradTimeline';
+import { useStudent } from '../hooks/useStudent';
+import { getStudentData } from '../data/students';
 
 export function Timeline() {
+    const { activeStudent, title, name } = useStudent();
+    const studentData = getStudentData(activeStudent);
+    const timeline = studentData.timeline;
+
     return (
         <div className="timeline">
-            <h2 className="timeline__title">Línea de tiempo de la doctora Fabiana 🎓</h2>
+            <h2 className="timeline__title">Línea de tiempo de {title} {name} 🎓</h2>
 
             <div className="timeline__list">
-                {gradTimeline.map((event, index) => (
+                {timeline.map((event, index) => (
                     <article key={event.id} className="timeline__item">
                         <div className="timeline__line">
                             <div className="timeline__dot" />
-                            {index !== gradTimeline.length - 1 && <div className="timeline__connector" />}
+                            {index !== timeline.length - 1 && <div className="timeline__connector" />}
                         </div>
 
                         <div className="timeline__card">
