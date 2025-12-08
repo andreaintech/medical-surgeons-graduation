@@ -84,6 +84,20 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: opacity 0.3s ease;
+}
+
+.home__image[style*="cursor: pointer"] {
+  cursor: pointer;
+}
+
+.home__image[style*="cursor: pointer"]:hover {
+  opacity: 0.9;
+}
+
+.home__image--fullscreen {
+  object-fit: contain;
+  cursor: default;
 }
 
 .home__carousel-btn {
@@ -167,6 +181,109 @@
   backdrop-filter: blur(10px);
 }
 
+.home__carousel--fullscreen .home__carousel-counter {
+  right: 85px; /* Position to the left of exit button (50px button + 20px right + 15px gap) */
+}
+
+.home__fullscreen-btn {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  width: 45px;
+  height: 45px;
+  border-radius: 8px;
+  font-size: 20px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 2;
+  backdrop-filter: blur(10px);
+}
+
+.home__fullscreen-btn:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: scale(1.1);
+}
+
+.home__exit-fullscreen-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 3;
+  backdrop-filter: blur(10px);
+}
+
+.home__exit-fullscreen-btn:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: scale(1.1) rotate(90deg);
+}
+
+/* Fullscreen Overlay */
+.home__fullscreen-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-out;
+  padding: 2rem;
+}
+
+.home__fullscreen-content {
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  max-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home__carousel--fullscreen {
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.home__carousel-container--fullscreen {
+  width: 100%;
+  height: 100%;
+  padding-top: 0;
+  max-width: 100vw;
+  max-height: 100vh;
+}
+
+.home__carousel-container--fullscreen .home__slide {
+  width: 100%;
+  height: 100%;
+}
+
 .home__message {
   text-align: center;
   margin-top: 3rem;
@@ -235,5 +352,31 @@
   .home__message-text {
     font-size: 1rem;
     padding: 1rem 1.5rem;
+  }
+
+  .home__fullscreen-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    top: 10px;
+    left: 10px;
+  }
+
+  .home__exit-fullscreen-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+    top: 15px;
+    right: 15px;
+  }
+
+  .home__carousel--fullscreen .home__carousel-counter {
+    right: 70px; /* Adjusted for smaller exit button on mobile */
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .home__fullscreen-overlay {
+    padding: 1rem;
   }
 }
