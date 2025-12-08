@@ -90,14 +90,25 @@
   box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
 }
 
+/* Navigation Container */
+.app__navigation {
+  margin-bottom: 1.5rem;
+  animation: fadeIn 0.8s ease-out 0.2s both;
+}
+
+/* Home Navigation */
+.app__home-nav {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
 /* Student Tabs */
 .app__student-tabs {
   display: flex;
   gap: 0.75rem;
   justify-content: center;
-  margin-bottom: 1.5rem;
   flex-wrap: wrap;
-  animation: fadeIn 0.8s ease-out 0.2s both;
 }
 
 .app__student-tab {
@@ -178,6 +189,34 @@
 .app__student-tab:disabled:hover {
   transform: none;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Home Button - Simple Style */
+.app__home-button {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border: 2px solid var(--theme-primary);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: transparent;
+  color: var(--theme-primary);
+}
+
+.app__home-button:hover:not(:disabled) {
+  background: var(--theme-primary);
+  color: white;
+}
+
+.app__home-button--active {
+  background: var(--theme-primary);
+  color: white;
+  cursor: default;
+}
+
+.app__home-button:disabled {
+  cursor: default;
 }
 
 /* Module Tabs */
@@ -1064,10 +1103,17 @@
     padding: 1rem 0.5rem;
   }
 
+  .app__navigation {
+    margin-bottom: 2.5rem;
+  }
+
+  .app__home-nav {
+    margin-bottom: 1.5rem;
+  }
+
   .app__student-tabs {
     flex-direction: column;
     align-items: stretch;
-    margin-bottom: 2.5rem;
   }
 
   .app__student-tab {

@@ -17,30 +17,34 @@ function App() {
   if (activeStudent === null) {
     return (
       <div className="app">
-        <nav className="app__student-tabs">
-          <button
-            className="app__student-tab app__student-tab--home app__student-tab--active"
-            disabled
-          >
-            <span className="app__student-tab-icon">🏠</span> Inicio
-          </button>
-          {(Object.keys(studentThemes) as Student[]).map((student) => {
-            const studentTheme = studentThemes[student];
-            return (
-              <button
-                key={student}
-                className="app__student-tab"
-                onClick={() => {
-                  setActiveStudent(student);
-                  setActiveModule('guestbook');
-                }}
-              >
-                <span className="app__student-tab-icon">{studentTheme.emoji}</span>{' '}
-                {studentTheme.name}
-              </button>
-            );
-          })}
-        </nav>
+        <div className="app__navigation">
+          <nav className="app__home-nav">
+            <button
+              className="app__home-button app__home-button--active"
+              disabled
+            >
+              Inicio
+            </button>
+          </nav>
+          <nav className="app__student-tabs">
+            {(Object.keys(studentThemes) as Student[]).map((student) => {
+              const studentTheme = studentThemes[student];
+              return (
+                <button
+                  key={student}
+                  className="app__student-tab"
+                  onClick={() => {
+                    setActiveStudent(student);
+                    setActiveModule('guestbook');
+                  }}
+                >
+                  <span className="app__student-tab-icon">{studentTheme.emoji}</span>{' '}
+                  {studentTheme.name}
+                </button>
+              );
+            })}
+          </nav>
+        </div>
         <Home />
       </div>
     );
@@ -60,30 +64,34 @@ function App() {
         </div>
       </header>
 
-      <nav className="app__student-tabs">
-        <button
-          className="app__student-tab app__student-tab--home"
-          onClick={() => setActiveStudent(null)}
-        >
-          <span className="app__student-tab-icon">🏠</span> Inicio
-        </button>
-        {(Object.keys(studentThemes) as Student[]).map((student) => {
-          const studentTheme = studentThemes[student];
-          return (
-            <button
-              key={student}
-              className={`app__student-tab ${activeStudent === student ? 'app__student-tab--active' : ''}`}
-              onClick={() => {
-                setActiveStudent(student);
-                setActiveModule('guestbook');
-              }}
-            >
-              <span className="app__student-tab-icon">{studentTheme.emoji}</span>{' '}
-              {studentTheme.name}
-            </button>
-          );
-        })}
-      </nav>
+      <div className="app__navigation">
+        <nav className="app__home-nav">
+          <button
+            className="app__home-button"
+            onClick={() => setActiveStudent(null)}
+          >
+            Inicio
+          </button>
+        </nav>
+        <nav className="app__student-tabs">
+          {(Object.keys(studentThemes) as Student[]).map((student) => {
+            const studentTheme = studentThemes[student];
+            return (
+              <button
+                key={student}
+                className={`app__student-tab ${activeStudent === student ? 'app__student-tab--active' : ''}`}
+                onClick={() => {
+                  setActiveStudent(student);
+                  setActiveModule('guestbook');
+                }}
+              >
+                <span className="app__student-tab-icon">{studentTheme.emoji}</span>{' '}
+                {studentTheme.name}
+              </button>
+            );
+          })}
+        </nav>
+      </div>
 
       <nav className="app__module-tabs">
         <button
