@@ -3,9 +3,9 @@ import './App.css';
 import { GuestbookAndPredictions } from './components/GuestbookAndPredictions';
 import { Quiz } from './components/Quiz';
 import { Timeline } from './components/Timeline';
+import { Home } from './components/Home';
 import { studentThemes, type Student } from './theme';
 import { useStudent } from './hooks/useStudent';
-import groupPhoto from './assets/home/group.jpg';
 
 type Module = 'guestbook' | 'quiz' | 'timeline';
 
@@ -13,6 +13,40 @@ function App() {
   const { activeStudent, setActiveStudent, graduationTitle, emoji } = useStudent();
   const [activeModule, setActiveModule] = useState<Module>('guestbook');
 
+  // Show home page when no student is selected
+  if (activeStudent === null) {
+    return (
+      <div className="app">
+        <nav className="app__student-tabs">
+          <button
+            className="app__student-tab app__student-tab--home app__student-tab--active"
+            disabled
+          >
+            <span className="app__student-tab-icon">🏠</span> Inicio
+          </button>
+          {(Object.keys(studentThemes) as Student[]).map((student) => {
+            const studentTheme = studentThemes[student];
+            return (
+              <button
+                key={student}
+                className="app__student-tab"
+                onClick={() => {
+                  setActiveStudent(student);
+                  setActiveModule('guestbook');
+                }}
+              >
+                <span className="app__student-tab-icon">{studentTheme.emoji}</span>{' '}
+                {studentTheme.name}
+              </button>
+            );
+          })}
+        </nav>
+        <Home />
+      </div>
+    );
+  }
+
+  // Show student-specific content when a student is selected
   return (
     <div className="app">
       <header className="app__header">
@@ -23,17 +57,16 @@ function App() {
             <span className="app__title-icon">{emoji}</span>
           </h1>
           <p className="app__subtitle">Un regalo especial para celebrar tu logro 🏅</p>
-          <div className="app__group-photo-wrapper">
-            <img
-              src={groupPhoto}
-              alt="Grupo de graduados"
-              className="app__group-photo"
-            />
-          </div>
         </div>
       </header>
 
       <nav className="app__student-tabs">
+        <button
+          className="app__student-tab app__student-tab--home"
+          onClick={() => setActiveStudent(null)}
+        >
+          <span className="app__student-tab-icon">🏠</span> Inicio
+        </button>
         {(Object.keys(studentThemes) as Student[]).map((student) => {
           const studentTheme = studentThemes[student];
           return (

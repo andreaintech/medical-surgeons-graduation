@@ -1,5 +1,5 @@
 // Theme configuration for each graduating student
-export type Student = 'fabiana' | 'hecmary' | 'glenda' | 'irainer' | 'emily' | 'josmar';
+export type Student = 'fabiana' | 'hecmary' | 'glenda' | 'irainer' | 'emily'; // | 'josmar';
 
 export interface StudentTheme {
     name: string;
@@ -93,20 +93,20 @@ export const studentThemes: Record<Student, StudentTheme> = {
         gradientMixed: 'linear-gradient(135deg, #fb923c 0%, #facc15 100%)',
         gradientSoft: 'linear-gradient(135deg, #ffedd5 0%, #fef9c3 100%)',
     },
-    josmar: {
-        name: 'Dr. Josmar',
-        title: 'el Doctor',
-        emoji: '👨🏻‍⚕',
-        primary: '#22c55e', // green-500
-        primaryLight: '#86efac', // green-300
-        primaryDark: '#16a34a', // green-600
-        secondary: '#eab308', // yellow-500
-        secondaryLight: '#fde047', // yellow-300
-        secondaryDark: '#ca8a04', // yellow-600
-        gradientPrimary: 'linear-gradient(135deg, #4ade80 0%, #16a34a 100%)',
-        gradientSecondary: 'linear-gradient(135deg, #fde047 0%, #eab308 100%)',
-        gradientMixed: 'linear-gradient(135deg, #4ade80 0%, #facc15 100%)',
-        gradientSoft: 'linear-gradient(135deg, #dcfce7 0%, #fef9c3 100%)',
-    },
+    // josmar: {
+    //     name: 'Dr. Josmar',
+    //     title: 'el Doctor',
+    //     emoji: '👨🏻‍⚕',
+    //     primary: '#22c55e', // green-500
+    //     primaryLight: '#86efac', // green-300
+    //     primaryDark: '#16a34a', // green-600
+    //     secondary: '#eab308', // yellow-500
+    //     secondaryLight: '#fde047', // yellow-300
+    //     secondaryDark: '#ca8a04', // yellow-600
+    //     gradientPrimary: 'linear-gradient(135deg, #4ade80 0%, #16a34a 100%)',
+    //     gradientSecondary: 'linear-gradient(135deg, #fde047 0%, #eab308 100%)',
+    //     gradientMixed: 'linear-gradient(135deg, #4ade80 0%, #facc15 100%)',
+    //     gradientSoft: 'linear-gradient(135deg, #dcfce7 0%, #fef9c3 100%)',
+    // },
 };
 

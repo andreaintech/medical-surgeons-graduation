@@ -7,7 +7,6 @@ import { glendaData } from './glenda';
 import { irainerData } from './irainer';
 import { hecmaryData } from './hecmary';
 import { emilyData } from './emily';
-import { josmarData } from './josmar';
 
 export interface StudentData {
     messages: Message[];
@@ -24,10 +23,19 @@ export const studentDataMap: StudentDataMap = {
     irainer: irainerData,
     hecmary: hecmaryData,
     emily: emilyData,
-    josmar: josmarData,
 };
 
-export function getStudentData(student: Student): StudentData {
+const emptyStudentData: StudentData = {
+    messages: [],
+    predictions: [],
+    questions: [],
+    timeline: [],
+};
+
+export function getStudentData(student: Student | null): StudentData {
+    if (student === null) {
+        return emptyStudentData;
+    }
     return studentDataMap[student];
 }
 

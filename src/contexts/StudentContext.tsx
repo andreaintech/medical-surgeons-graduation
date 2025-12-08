@@ -2,8 +2,8 @@ import { createContext, useState, useEffect, useMemo, type ReactNode } from 'rea
 import { studentThemes, type Student, type StudentTheme } from '../theme';
 
 interface StudentContextValue {
-    activeStudent: Student;
-    setActiveStudent: (student: Student) => void;
+    activeStudent: Student | null;
+    setActiveStudent: (student: Student | null) => void;
     theme: StudentTheme;
     name: string;
     title: string;
@@ -16,12 +16,29 @@ const StudentContext = createContext<StudentContextValue | undefined>(undefined)
 
 interface StudentProviderProps {
     readonly children: ReactNode;
-    readonly initialStudent?: Student;
+    readonly initialStudent?: Student | null;
 }
 
-export function StudentProvider({ children, initialStudent = 'fabiana' }: StudentProviderProps) {
-    const [activeStudent, setActiveStudent] = useState<Student>(initialStudent);
-    const theme = studentThemes[activeStudent];
+// Default theme for home page
+const defaultTheme: StudentTheme = {
+    name: 'Graduados',
+    title: 'los Graduados',
+    emoji: '🎓',
+    primary: '#6366f1', // indigo-500
+    primaryLight: '#a5b4fc', // indigo-300
+    primaryDark: '#4f46e5', // indigo-600
+    secondary: '#eab308', // yellow-500
+    secondaryLight: '#fde047', // yellow-300
+    secondaryDark: '#ca8a04', // yellow-600
+    gradientPrimary: 'linear-gradient(135deg, #818cf8 0%, #4f46e5 100%)',
+    gradientSecondary: 'linear-gradient(135deg, #fde047 0%, #eab308 100%)',
+    gradientMixed: 'linear-gradient(135deg, #818cf8 0%, #facc15 100%)',
+    gradientSoft: 'linear-gradient(135deg, #e0e7ff 0%, #fef9c3 100%)',
+};
+
+export function StudentProvider({ children, initialStudent = null }: StudentProviderProps) {
+    const [activeStudent, setActiveStudent] = useState<Student | null>(initialStudent);
+    const theme = activeStudent ? studentThemes[activeStudent] : defaultTheme;
 
     // Update CSS variables when student changes
     useEffect(() => {
@@ -38,13 +55,16 @@ export function StudentProvider({ children, initialStudent = 'fabiana' }: Studen
         root.style.setProperty('--theme-gradient-soft', theme.gradientSoft);
     }, [theme]);
 
-    const isDoctor = useMemo(() => activeStudent !== 'josmar', [activeStudent]);
+    const isDoctor = useMemo(() => activeStudent !== null, [activeStudent]);
 
     const graduationTitle = useMemo(() => {
+        if (!activeStudent) {
+            return '¡Feliz Graduación!';
+        }
         return isDoctor
             ? `¡Feliz Graduación, Doctora ${theme.name}!`
             : `¡Feliz Graduación, Doctor ${theme.name}!`;
-    }, [isDoctor, theme.name]);
+    }, [activeStudent, isDoctor, theme.name]);
 
     const value: StudentContextValue = useMemo(
         () => ({
