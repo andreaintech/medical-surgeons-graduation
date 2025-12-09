@@ -52,16 +52,16 @@ export const studentThemes: Record<Student, StudentTheme> = {
         name: 'Dra. Glenda',
         title: 'la Doctora',
         emoji: '👩🏻‍⚕',
-        primary: '#7c3aed', // violet-600 (deeper purple)
-        primaryLight: '#a78bfa', // violet-400
-        primaryDark: '#6d28d9', // violet-700
+        primary: '#e1c4ff', // custom lavender (middle)
+        primaryLight: '#e6d7ff', // custom lavender (lightest)
+        primaryDark: '#d2afff', // custom lavender (darkest)
         secondary: '#eab308', // yellow-500
         secondaryLight: '#fde047', // yellow-300
         secondaryDark: '#ca8a04', // yellow-600
-        gradientPrimary: 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)',
+        gradientPrimary: 'linear-gradient(135deg, #e7d1ff 0%, #d2afff 100%)',
         gradientSecondary: 'linear-gradient(135deg, #fde047 0%, #eab308 100%)',
-        gradientMixed: 'linear-gradient(135deg, #8b5cf6 0%, #facc15 100%)',
-        gradientSoft: 'linear-gradient(135deg, #ede9fe 0%, #fef9c3 100%)',
+        gradientMixed: 'linear-gradient(135deg, #e1c4ff 0%, #facc15 100%)',
+        gradientSoft: 'linear-gradient(135deg, #e6d7ff 0%, #fef9c3 100%)',
     },
     irainer: {
         name: 'Dra. Irainer',
