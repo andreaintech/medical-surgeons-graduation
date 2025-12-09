@@ -1,7 +1,7 @@
 // src/components/Quiz.tsx
 import { useState } from 'react';
 import { useStudent } from '../hooks/useStudent';
-import { getStudentData } from '../data/students';
+import { getStudentData } from '../data/doctors';
 
 export function Quiz() {
     const { activeStudent } = useStudent();

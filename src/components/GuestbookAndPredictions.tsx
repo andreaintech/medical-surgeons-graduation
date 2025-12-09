@@ -2,7 +2,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { type Message, type Prediction } from '../data/gradMessages';
 import { useStudent } from '../hooks/useStudent';
-import { getStudentData } from '../data/students';
+import { getStudentData } from '../data/doctors';
 
 export function GuestbookAndPredictions() {
     const { activeStudent, title, name } = useStudent();

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useStudent } from '../hooks/useStudent';
-import { getStudentData } from '../data/students';
+import { getStudentData } from '../data/doctors';
 
 export function Timeline() {
     const { activeStudent, title, name } = useStudent();
