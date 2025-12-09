@@ -1226,3 +1226,32 @@
     right: 10px;
   }
 }
+
+/* Hecmary-specific gray text styling */
+[data-student="hecmary"] .quiz__question {
+  color: #6b7280 !important; /* gray-500 */
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: #6b7280 !important;
+  background-clip: unset !important;
+}
+
+[data-student="hecmary"] .timeline__title {
+  color: #6b7280 !important; /* gray-500 */
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: #6b7280 !important;
+  background-clip: unset !important;
+}
+
+[data-student="hecmary"] .guestbook__section h2 {
+  color: #6b7280 !important; /* gray-500 */
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: #6b7280 !important;
+  background-clip: unset !important;
+}
+
+[data-student="hecmary"] .quiz__option--selected {
+  color: #9ca3af !important; /* silver-400 */
+}

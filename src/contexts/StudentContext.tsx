@@ -53,7 +53,14 @@ export function StudentProvider({ children, initialStudent = null }: StudentProv
         root.style.setProperty('--theme-gradient-secondary', theme.gradientSecondary);
         root.style.setProperty('--theme-gradient-mixed', theme.gradientMixed);
         root.style.setProperty('--theme-gradient-soft', theme.gradientSoft);
-    }, [theme]);
+        
+        // Add data attribute for student-specific styling
+        if (activeStudent) {
+            root.setAttribute('data-student', activeStudent);
+        } else {
+            root.removeAttribute('data-student');
+        }
+    }, [theme, activeStudent]);
 
     const isDoctor = useMemo(() => activeStudent !== null, [activeStudent]);
 
