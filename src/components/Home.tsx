@@ -353,7 +353,7 @@ export function Home() {
 
         <div className="home__message">
           <p className="home__message-text">
-            Selecciona un graduado para ver su página personalizada
+            Selecciona a una doctora para conocer más sobre su vida y carrera
           </p>
         </div>
       </div>
