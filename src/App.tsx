@@ -37,6 +37,7 @@ function App() {
                     setActiveStudent(student);
                     setActiveModule('guestbook');
                   }}
+                  disabled={student === 'glenda'}
                 >
                   <span className="app__student-tab-icon">{studentTheme.emoji}</span>{' '}
                   {studentTheme.name}
@@ -84,6 +85,7 @@ function App() {
                   setActiveStudent(student);
                   setActiveModule('guestbook');
                 }}
+                disabled={student === 'glenda'}
               >
                 <span className="app__student-tab-icon">{studentTheme.emoji}</span>{' '}
                 {studentTheme.name}
