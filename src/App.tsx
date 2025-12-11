@@ -11,7 +11,7 @@ type Module = 'guestbook' | 'quiz' | 'timeline';
 
 function App() {
   const { activeStudent, setActiveStudent, graduationTitle, emoji } = useStudent();
-  const [activeModule, setActiveModule] = useState<Module>('guestbook');
+  const [activeModule, setActiveModule] = useState<Module>('timeline');
 
   // Show home page when no student is selected
   if (activeStudent === null) {
@@ -35,9 +35,8 @@ function App() {
                   className="app__student-tab"
                   onClick={() => {
                     setActiveStudent(student);
-                    setActiveModule('guestbook');
+                    setActiveModule('timeline');
                   }}
-                  disabled={student === 'glenda'}
                 >
                   <span className="app__student-tab-icon">{studentTheme.emoji}</span>{' '}
                   {studentTheme.name}
@@ -83,9 +82,8 @@ function App() {
                 className={`app__student-tab ${activeStudent === student ? 'app__student-tab--active' : ''}`}
                 onClick={() => {
                   setActiveStudent(student);
-                  setActiveModule('guestbook');
+                  setActiveModule('timeline');
                 }}
-                disabled={student === 'glenda'}
               >
                 <span className="app__student-tab-icon">{studentTheme.emoji}</span>{' '}
                 {studentTheme.name}
@@ -99,6 +97,7 @@ function App() {
         <button
           className={`app__module-tab ${activeModule === 'guestbook' ? 'app__module-tab--active' : ''}`}
           onClick={() => setActiveModule('guestbook')}
+          disabled
         >
           <span className="app__module-tab-icon">💌</span>{' '}
           Mensajes y Predicciones
