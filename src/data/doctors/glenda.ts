@@ -1,7 +1,59 @@
 import { type StudentData } from './index';
 import { type Message, type Prediction } from '../gradMessages';
 import { type QuizQuestion } from '../types';
-import { type TimelineEvent } from '../gradTimeline';
+import { type TimelineEvent, type TimelineImage } from '../types';
+
+// Use import.meta.glob to get all images at build time
+// Glenda's images are .jpg format
+const glendaAllImagesJpg = import.meta.glob('../../assets/glenda/timeline/**/*.jpg', { 
+    eager: true, 
+    query: '?url',
+    import: 'default'
+}) as Record<string, string>;
+const glendaAllImagesJpeg = import.meta.glob('../../assets/glenda/timeline/**/*.jpeg', { 
+    eager: true, 
+    query: '?url',
+    import: 'default'
+}) as Record<string, string>;
+
+// Combine both .jpg and .jpeg images
+const glendaAllImages = { ...glendaAllImagesJpg, ...glendaAllImagesJpeg };
+
+// Helper function to get images for a specific stage
+function getImagesForStage(stage: 'childhood' | 'adolescence' | 'university', year?: number): TimelineImage[] {
+    const images: TimelineImage[] = [];
+    const entries = Object.entries(glendaAllImages);
+    
+    // Filter by stage and year
+    const filtered = entries.filter(([path]) => {
+        if (year) {
+            return path.includes(`/${stage}/${year}/`);
+        }
+        // For childhood and adolescence, exclude university folder
+        if (stage === 'childhood' || stage === 'adolescence') {
+            return path.includes(`/${stage}/`) && !path.includes('/university/');
+        }
+        return false;
+    });
+    
+    // Sort by filename number (handles both .jpg and .jpeg)
+    filtered.sort(([a], [b]) => {
+        const getNum = (path: string) => {
+            const match = path.match(/(\d+)\.(jpg|jpeg)$/);
+            return match ? parseInt(match[1]) : 0;
+        };
+        return getNum(a) - getNum(b);
+    });
+    
+    // Extract URLs
+    filtered.forEach(([, url]) => {
+        if (url && typeof url === 'string') {
+            images.push({ url, description: null });
+        }
+    });
+    
+    return images;
+}
 
 export const glendaMessages: Message[] = [
     {
@@ -245,25 +297,60 @@ export const glendaQuestions: QuizQuestion[] = [
 
 export const glendaTimeline: TimelineEvent[] = [
     {
-        id: 't1',
-        year: 'Inicio de carrera',
-        title: 'Comienza el sueño',
-        description: 'Primer día como estudiante de Medicina.',
-        imageUrl: '/images/glenda-start.jpg',
+        id: 'glenda-childhood',
+        year: 'Infancia',
+        title: 'Los primeros años',
+        description: 'Recuerdos de la infancia de la futura Doctora Glenda.',
+        images: getImagesForStage('childhood'),
     },
     {
-        id: 't2',
-        year: 'Medio de carrera',
-        title: 'Creciendo como profesional',
-        description: 'Aprendiendo y desarrollando habilidades clínicas.',
-        imageUrl: '/images/glenda-middle.jpg',
+        id: 'glenda-adolescence',
+        year: 'Adolescencia',
+        title: 'Creciendo y soñando',
+        description: 'Años de adolescencia, formando su personalidad y definiendo su vocación hacia la medicina.',
+        images: getImagesForStage('adolescence'),
     },
     {
-        id: 't3',
-        year: 'Graduación',
-        title: 'Doctora Glenda',
-        description: 'El día de su graduación como médica cirujana.',
-        imageUrl: '/images/glenda-graduation.jpg',
+        id: 'glenda-year1',
+        year: '1er año de Medicina',
+        title: 'El inicio del sueño',
+        description: 'Primer año como estudiante de Medicina en la Universidad de Carabobo.',
+        images: getImagesForStage('university', 1),
+    },
+    {
+        id: 'glenda-year2',
+        year: '2do año de Medicina',
+        title: 'Profundizando conocimientos',
+        description: 'Segundo año de la carrera, aprendiendo las bases de la medicina.',
+        images: getImagesForStage('university', 2),
+    },
+    {
+        id: 'glenda-year3',
+        year: '3er año de Medicina',
+        title: 'Avanzando en el camino',
+        description: 'Tercer año, consolidando conocimientos y preparándose para la práctica clínica.\n\n\n\nNota: La Dra. Glenda no consiguió fotos de 3er año, ubíquenla en las fotos de las demás doctoras en su timeline en el 3er año.',
+        images: getImagesForStage('university', 3),
+    },
+    {
+        id: 'glenda-year4',
+        year: '4to año de Medicina',
+        title: 'Primeras experiencias clínicas',
+        description: 'Cuarto año, comenzando las guardias y la práctica clínica en la CHET.',
+        images: getImagesForStage('university', 4),
+    },
+    {
+        id: 'glenda-year5',
+        year: '5to año de Medicina',
+        title: 'Consolidando la práctica',
+        description: 'Quinto año, participando en congresos y desarrollando habilidades clínicas.',
+        images: getImagesForStage('university', 5),
+    },
+    {
+        id: 'glenda-year6',
+        year: '6to año de Medicina',
+        title: 'El último año',
+        description: 'Sexto y último año, preparándose para la graduación y el futuro profesional.',
+        images: getImagesForStage('university', 6),
     },
 ];
 
