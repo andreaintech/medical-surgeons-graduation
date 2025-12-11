@@ -1,25 +1,40 @@
 import { useState, useEffect } from 'react';
 import { useStudent } from '../hooks/useStudent';
 import { getStudentData } from '../data/doctors';
+import type { TimelineEvent, TimelineImage } from '../data/types';
+
+// Helper function to normalize images from different formats
+function getImages(event: TimelineEvent): TimelineImage[] {
+    if (event.images) {
+        return event.images;
+    }
+    if (event.imageUrls) {
+        return event.imageUrls.map(url => ({ url }));
+    }
+    if (event.imageUrl) {
+        return [{ url: event.imageUrl }];
+    }
+    return [];
+}
 
 export function Timeline() {
     const { activeStudent, title, name } = useStudent();
     const studentData = getStudentData(activeStudent);
     const timeline = studentData.timeline;
-    const [selectedImage, setSelectedImage] = useState<{ url: string; eventTitle: string } | null>(null);
+    const [selectedImage, setSelectedImage] = useState<{ url: string; description?: string | null; eventTitle: string } | null>(null);
     const [currentImageIndex, setCurrentImageIndex] = useState<Record<string, number>>({});
 
-    function handleImageClick(_eventId: string, imageUrl: string, eventTitle: string) {
-        setSelectedImage({ url: imageUrl, eventTitle });
+    function handleImageClick(_eventId: string, image: TimelineImage, eventTitle: string) {
+        setSelectedImage({ url: image.url, description: image.description, eventTitle });
     }
 
-    function handleNextImage(eventId: string, imageUrls: string[], currentIndex: number) {
-        const nextIndex = (currentIndex + 1) % imageUrls.length;
+    function handleNextImage(eventId: string, images: TimelineImage[], currentIndex: number) {
+        const nextIndex = (currentIndex + 1) % images.length;
         setCurrentImageIndex((prev) => ({ ...prev, [eventId]: nextIndex }));
     }
 
-    function handlePrevImage(eventId: string, imageUrls: string[], currentIndex: number) {
-        const prevIndex = (currentIndex - 1 + imageUrls.length) % imageUrls.length;
+    function handlePrevImage(eventId: string, images: TimelineImage[], currentIndex: number) {
+        const prevIndex = (currentIndex - 1 + images.length) % images.length;
         setCurrentImageIndex((prev) => ({ ...prev, [eventId]: prevIndex }));
     }
 
@@ -45,29 +60,31 @@ export function Timeline() {
         if (!selectedImage) return;
         // Find the current event and image
         const currentEvent = timeline.find((timelineEvent) => {
-            const images = timelineEvent.imageUrls || (timelineEvent.imageUrl ? [timelineEvent.imageUrl] : []);
-            return images.includes(selectedImage.url);
+            const images = getImages(timelineEvent);
+            return images.some(img => img.url === selectedImage.url);
         });
         if (!currentEvent) return;
 
-        const images = currentEvent.imageUrls || (currentEvent.imageUrl ? [currentEvent.imageUrl] : []);
-        const currentIndex = images.indexOf(selectedImage.url);
+        const images = getImages(currentEvent);
+        const currentIndex = images.findIndex(img => img.url === selectedImage.url);
         const nextIndex = (currentIndex + 1) % images.length;
-        setSelectedImage({ url: images[nextIndex], eventTitle: currentEvent.title });
+        const nextImage = images[nextIndex];
+        setSelectedImage({ url: nextImage.url, description: nextImage.description, eventTitle: currentEvent.title });
     }
 
     function handleModalPrev() {
         if (!selectedImage) return;
         const currentEvent = timeline.find((timelineEvent) => {
-            const images = timelineEvent.imageUrls || (timelineEvent.imageUrl ? [timelineEvent.imageUrl] : []);
-            return images.includes(selectedImage.url);
+            const images = getImages(timelineEvent);
+            return images.some(img => img.url === selectedImage.url);
         });
         if (!currentEvent) return;
 
-        const images = currentEvent.imageUrls || (currentEvent.imageUrl ? [currentEvent.imageUrl] : []);
-        const currentIndex = images.indexOf(selectedImage.url);
+        const images = getImages(currentEvent);
+        const currentIndex = images.findIndex(img => img.url === selectedImage.url);
         const prevIndex = (currentIndex - 1 + images.length) % images.length;
-        setSelectedImage({ url: images[prevIndex], eventTitle: currentEvent.title });
+        const prevImage = images[prevIndex];
+        setSelectedImage({ url: prevImage.url, description: prevImage.description, eventTitle: currentEvent.title });
     }
 
     return (
@@ -77,9 +94,10 @@ export function Timeline() {
 
                 <div className="timeline__list">
                     {timeline.map((event, index) => {
-                        const images = event.imageUrls || (event.imageUrl ? [event.imageUrl] : []);
+                        const images = getImages(event);
                         const currentIndex = currentImageIndex[event.id] || 0;
                         const hasMultipleImages = images.length > 1;
+                        const currentImage = images[currentIndex];
 
                         return (
                             <article key={event.id} className="timeline__item">
@@ -93,17 +111,17 @@ export function Timeline() {
                                     <h3 className="timeline__card-title">{event.title}</h3>
                                     <p className="timeline__description">{event.description}</p>
 
-                                    {images.length > 0 && (
+                                    {images.length > 0 && currentImage && (
                                         <div className="timeline__carousel">
                                             <div className="timeline__image-wrapper">
                                                 <button
                                                     type="button"
                                                     className="timeline__image-button"
-                                                    onClick={() => handleImageClick(event.id, images[currentIndex], event.title)}
+                                                    onClick={() => handleImageClick(event.id, currentImage, event.title)}
                                                     aria-label={`Ver ${event.title} en pantalla completa`}
                                                 >
                                                     <img
-                                                        src={images[currentIndex]}
+                                                        src={currentImage.url}
                                                         alt={event.title}
                                                         className="timeline__image"
                                                     />
@@ -136,9 +154,12 @@ export function Timeline() {
                                                     </>
                                                 )}
                                             </div>
+                                            {currentImage.description && (
+                                                <p className="timeline__image-description">{currentImage.description}</p>
+                                            )}
                                             {hasMultipleImages && (
                                                 <div className="timeline__carousel-thumbnails">
-                                                    {images.map((url: string, imgIndex: number) => {
+                                                    {images.map((image, imgIndex: number) => {
                                                         const handleThumbnailClick = () => {
                                                             setCurrentImageIndex((prev) => ({ ...prev, [event.id]: imgIndex }));
                                                         };
@@ -149,7 +170,7 @@ export function Timeline() {
                                                                 onClick={handleThumbnailClick}
                                                                 aria-label={`Ver imagen ${imgIndex + 1}`}
                                                             >
-                                                                <img src={url} alt={`${event.title} - ${imgIndex + 1}`} />
+                                                                <img src={image.url} alt={`${event.title} - ${imgIndex + 1}`} />
                                                             </button>
                                                         );
                                                     })}
@@ -198,6 +219,9 @@ export function Timeline() {
                             className="timeline__modal-image"
                         />
                         <p className="timeline__modal-title">{selectedImage.eventTitle}</p>
+                        {selectedImage.description && (
+                            <p className="timeline__modal-description">{selectedImage.description}</p>
+                        )}
                         <button
                             className="timeline__modal-nav timeline__modal-nav--prev"
                             onClick={handleModalPrev}

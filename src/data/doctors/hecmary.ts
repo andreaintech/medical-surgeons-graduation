@@ -1,7 +1,54 @@
 import { type StudentData } from './index';
 import { type Message, type Prediction } from '../gradMessages';
 import { type QuizQuestion } from '../types';
-import { type TimelineEvent } from '../gradTimeline';
+import { type TimelineEvent, type TimelineImage } from '../types';
+
+// Import all images using Vite's import.meta.glob
+// Structure: childhood/1.jpeg, childhood/2.jpeg, etc.
+//           adolescence/1.jpeg, adolescence/2.jpeg, etc.
+//           university/1/1.jpeg, university/1/2.jpeg, etc.
+// Use import.meta.glob to get all images at build time
+const hecmaryAllImages = import.meta.glob('../../assets/hecmary/timeline/**/*.jpeg', { 
+    eager: true, 
+    query: '?url',
+    import: 'default'
+}) as Record<string, string>;
+
+// Helper function to get images for a specific stage
+function getImagesForStage(stage: 'childhood' | 'adolescence' | 'university', year?: number): TimelineImage[] {
+    const images: TimelineImage[] = [];
+    const entries = Object.entries(hecmaryAllImages);
+    
+    // Filter by stage and year
+    const filtered = entries.filter(([path]) => {
+        if (year) {
+            return path.includes(`/${stage}/${year}/`);
+        }
+        // For childhood and adolescence, exclude university folder
+        if (stage === 'childhood' || stage === 'adolescence') {
+            return path.includes(`/${stage}/`) && !path.includes('/university/');
+        }
+        return false;
+    });
+    
+    // Sort by filename number
+    filtered.sort(([a], [b]) => {
+        const getNum = (path: string) => {
+            const match = path.match(/(\d+)\.jpeg$/);
+            return match ? parseInt(match[1]) : 0;
+        };
+        return getNum(a) - getNum(b);
+    });
+    
+    // Extract URLs
+    filtered.forEach(([, url]) => {
+        if (url && typeof url === 'string') {
+            images.push({ url, description: null });
+        }
+    });
+    
+    return images;
+}
 
 export const hecmaryMessages: Message[] = [
     {
@@ -245,25 +292,60 @@ export const hecmaryQuestions: QuizQuestion[] = [
 
 export const hecmaryTimeline: TimelineEvent[] = [
     {
-        id: 't1',
-        year: 'Inicio',
-        title: 'El comienzo del sueño',
-        description: 'Inicio de sus estudios de Medicina.',
-        imageUrl: '/images/hecmary-start.jpg',
+        id: 'hecmary-childhood',
+        year: 'Infancia',
+        title: 'Los primeros años',
+        description: 'Recuerdos de la infancia de la futura Doctora Hecmary.',
+        images: getImagesForStage('childhood'),
     },
     {
-        id: 't2',
-        year: 'Desarrollo',
-        title: 'Creciendo como profesional',
-        description: 'Desarrollando conocimientos y habilidades médicas.',
-        imageUrl: '/images/hecmary-middle.jpg',
+        id: 'hecmary-adolescence',
+        year: 'Adolescencia',
+        title: 'Creciendo y soñando',
+        description: 'Años de adolescencia, formando su personalidad y definiendo su vocación hacia la medicina.',
+        images: getImagesForStage('adolescence'),
     },
     {
-        id: 't3',
-        year: 'Graduación',
-        title: 'Doctora Hecmary',
-        description: 'Su graduación como médica cirujana.',
-        imageUrl: '/images/hecmary-graduation.jpg',
+        id: 'hecmary-year1',
+        year: '1er año de Medicina',
+        title: 'El inicio del sueño',
+        description: 'Primer año como estudiante de Medicina en la Universidad de Carabobo.',
+        images: getImagesForStage('university', 1),
+    },
+    {
+        id: 'hecmary-year2',
+        year: '2do año de Medicina',
+        title: 'Profundizando conocimientos',
+        description: 'Segundo año de la carrera, aprendiendo las bases de la medicina.',
+        images: getImagesForStage('university', 2),
+    },
+    {
+        id: 'hecmary-year3',
+        year: '3er año de Medicina',
+        title: 'Avanzando en el camino',
+        description: 'Tercer año, consolidando conocimientos y preparándose para la práctica clínica.',
+        images: getImagesForStage('university', 3),
+    },
+    {
+        id: 'hecmary-year4',
+        year: '4to año de Medicina',
+        title: 'Primeras experiencias clínicas',
+        description: 'Cuarto año, comenzando las guardias y la práctica clínica en la CHET.',
+        images: getImagesForStage('university', 4),
+    },
+    {
+        id: 'hecmary-year5',
+        year: '5to año de Medicina',
+        title: 'Consolidando la práctica',
+        description: 'Quinto año, participando en congresos y desarrollando habilidades clínicas.',
+        images: getImagesForStage('university', 5),
+    },
+    {
+        id: 'hecmary-year6',
+        year: '6to año de Medicina',
+        title: 'El último año',
+        description: 'Sexto y último año, preparándose para la graduación y el futuro profesional.',
+        images: getImagesForStage('university', 6),
     },
 ];
 
